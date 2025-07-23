@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teşekkürler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #start-button {
+      padding: 16px 32px;
+      font-size: 20px;
+      border: none;
+      border-radius: 30px;
+      background-color: #ff6f61;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+      z-index: 2;
+    }
+
+    #start-button:hover {
+      background-color: #e6514b;
+    }
+
+    #message {
+      font-size: 22px;
+      color: #333;
+      margin-top: 20px;
+      min-height: 30px;
+    }
+
+    .thank-you-box {
+      background: white;
+      padding: 60px;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      z-index: 2;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+      max-width: 600px;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 64px;
+      color: #ff6f61;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #444;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <button id="start-button">Mesajı Görmek İçin Tıklayın</button>
+  <div id="message"></div>
+
+  <div class="thank-you-box" id="thank-you-box">
+    <h1>Teşekkür ederim!</h1>
+    <p>Word ustası Murat ÜNLÜ cok tesekkur ederımmm 💖  
+    Tabii ki de kodda hiç hata yoktu, sadece birazcık kandırdım 😏</p>
+  </div>
+
+  <!-- Konfeti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const button = document.getElementById('start-button');
+    const box = document.getElementById('thank-you-box');
+    const message = document.getElementById('message');
+
+    let clickCount = 0;
+
+    button.addEventListener('click', () => {
+      clickCount++;
+
+      if (clickCount < 3) {
+        message.textContent = "Olmadı, tekrar dene.";
+      } else if (clickCount === 3) {
+        message.textContent = "Tabii ki de bilerek tekrar denettirdim 😎 Yazdığım kodda hata yok!";
+        
+        setTimeout(() => {
+          message.style.display = 'none';
+          button.style.display = 'none';
+          box.style.display = 'block';
+
+          // Konfeti patlat
+          const duration = 4000;
+          const end = Date.now() + duration;
+
+          (function frame() {
+            confetti({
+              particleCount: 6,
+              angle: 60,
+              spread: 55,
+              origin: { x: 0 },
+              colors: ['#ffb6c1', '#ffc0cb', '#ff69b4', '#d4af37']
+            });
+            confetti({
+              particleCount: 6,
+              angle: 120,
+              spread: 55,
+              origin: { x: 1 },
+              colors: ['#ffb6c1', '#ffc0cb', '#ff69b4', '#d4af37']
+            });
+
+            if (Date.now() < end) {
+              requestAnimationFrame(frame);
+            }
+          })();
+
+        }, 2000); // 2 saniye sonra teşekkür ekranına geç
+      }
+    });
+  </script>
+</body>
+</html>
